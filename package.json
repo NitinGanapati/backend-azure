@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "mocha --timeout 10000",
     "seed": "node scripts/seed.js",
     "go": "mocha --timeout 10000 --require test/test-setup.js"
