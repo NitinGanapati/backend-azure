@@ -81,20 +81,18 @@ router.get("/", async (req, res) => {
 });
 
 // Route to get distinct titles, authors, and genres
+// Add this route to return unique titles, authors, genres
 router.get("/filters", async (req, res) => {
   try {
-    const titles = await Book.distinct("title");
-    const authors = await Book.distinct("author");
-    const genres = await Book.distinct("genre");
+    const books = await Book.find();
 
-    res.status(200).json({
-      titles,
-      authors,
-      genres,
-    });
-  } catch (error) {
-    console.error("Error fetching filter data:", error);
-    res.status(500).json({ error: "Server error while fetching filter data" });
+    const titles = [...new Set(books.map((book) => book.title))];
+    const authors = [...new Set(books.map((book) => book.author))];
+    const genres = [...new Set(books.map((book) => book.genre))];
+
+    res.json({ titles, authors, genres });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch filter options" });
   }
 });
 
